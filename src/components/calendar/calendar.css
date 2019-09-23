@@ -1,0 +1,57 @@
+:host {
+    --color-primary: #7070bc;
+    display: block;
+}
+
+.start-date, .end-date, .current-date {
+    background-color: var(--color-primary);
+}
+
+.day {
+    position: relative;
+}
+
+.day:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.day-text {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    width: 75%;
+    height: 75%;
+}
+
+/* .day-text:before {
+    content: "";
+    width: 0;
+    height: 0;
+    top: 15px;
+    left: -9px;
+    position: absolute;
+    border-style: solid;
+    transform: translateY(-50%);
+    border-width: 12px 13px 12px 0;
+    border-color: transparent #fc0 transparent transparent;
+} */
+
+.selected-date {
+    background-image: url(http://static.vueling.com/cms/images/calendar_travelTime_bg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 25px;
+    opacity: 1;
+    /* background-position: -23px center; */
+}
+
+.end-item {
+    background-position: -23px center;
+}
+
+.start-item {
+    background-position: 23px center;
+}
