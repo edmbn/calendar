@@ -1,4 +1,4 @@
-import { Component, Prop, h, State } from '@stencil/core';
+import { Component, Prop, h } from '@stencil/core';
 
 @Component({
   tag: 'edmbn-calendar',
@@ -26,8 +26,8 @@ export class Calendar {
    */
   @Prop() type = 'range';
 
-  startDay: any;
-  endDay: any;
+  startDate: any;
+  endDate: any;
   selectedElements: any[];
 
   private getMonthView() {
@@ -93,40 +93,45 @@ export class Calendar {
       });
       this.selectedElements = [];
     }
-    if (this.startDay) {
-      this.startDay.element.classList.remove('start-date');
-      this.startDay = null;
+    if (this.startDate) {
+      this.startDate.element.classList.remove('start-date');
+      this.startDate = null;
     }
-    if (this.endDay) {
-      this.endDay.element.classList.remove('end-date');
-      this.endDay = null;
+    if (this.endDate) {
+      this.endDate.element.classList.remove('end-date');
+      this.endDate = null;
     }
   }
 
+  selectRangeDays() {
+    const calendarElements = Array.from(document.querySelector('edmbn-calendar').shadowRoot.querySelectorAll('.day'));
+    const startDayElement = calendarElements.find((el: any) => el.firstChild.classList.contains('start-date'));
+    const startDayIndex = calendarElements.indexOf(startDayElement);
+    const endDayElement = calendarElements.find((el: any) => el.firstChild.classList.contains('end-date'));
+    const endDayIndex = calendarElements.indexOf(endDayElement);
+
+    startDayElement.classList.add('start-item');
+    endDayElement.classList.add('end-item');
+    this.selectedElements = calendarElements.slice(startDayIndex, endDayIndex + 1);
+    this.selectedElements.forEach(el => el.classList.add('selected-date'));
+  }
+
   handleDayClick(event, timestamp: number) {
-    if (this.startDay && this.endDay) {
+    if (this.startDate && this.endDate) {
       this.resetCalendarSelection();
-    } else if (this.startDay && timestamp < this.startDay.timestamp) {
+    } else if (this.startDate && timestamp < this.startDate.timestamp) {
       this.resetCalendarSelection();
     }
 
-    if (!this.startDay) {
+    if (!this.startDate) {
       const startElement = event.composedPath()[0];
       startElement.classList.add('start-date');
-      this.startDay = { element: startElement, timestamp };
-    } else if (!this.endDay) {
+      this.startDate = { element: startElement, timestamp };
+    } else if (!this.endDate) {
       const endElement = event.composedPath()[0];
       endElement.classList.add('end-date');
-      this.endDay = { element: endElement, timestamp };
-      const calendarElements = Array.from(document.querySelector('edmbn-calendar').shadowRoot.querySelectorAll('.day'));
-      const startDayElement = calendarElements.find((el: any) => el.firstChild.classList.contains('start-date'));
-      startDayElement.classList.add('start-item');
-      const startDayIndex = calendarElements.indexOf(startDayElement);
-      const endDayElement = calendarElements.find((el: any) => el.firstChild.classList.contains('end-date'));
-      endDayElement.classList.add('end-item');
-      const endDayIndex = calendarElements.indexOf(endDayElement);
-      this.selectedElements = calendarElements.slice(startDayIndex, endDayIndex + 1);
-      this.selectedElements.forEach(el => el.classList.add('selected-date'));
+      this.endDate = { element: endElement, timestamp };
+      this.selectRangeDays();
     }
   }
 
