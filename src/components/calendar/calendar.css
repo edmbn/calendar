@@ -3,12 +3,18 @@
     display: block;
 }
 
-.start-date, .end-date, .current-date {
+.start-date span, .end-date span, .current-date span {
     background-color: var(--color-primary);
 }
 
 .day {
     position: relative;
+}
+
+.day button {
+    outline: none;
+    background-color: transparent;
+    background: transparent;
 }
 
 .day:after {
@@ -48,10 +54,10 @@
     /* background-position: -23px center; */
 }
 
-.end-item {
-    background-position: -23px center;
+.start-date {
+    background-position: 23px center;
 }
 
-.start-item {
-    background-position: 23px center;
+.end-date {
+    background-position: -23px center;
 }
