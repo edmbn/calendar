@@ -52,6 +52,7 @@ declare namespace LocalJSX {
     * Calendar month
     */
     'month'?: number;
+    'onDaysSelected'?: (event: CustomEvent<any>) => void;
     /**
     * Type of calendar
     */

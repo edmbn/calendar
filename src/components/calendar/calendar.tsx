@@ -1,4 +1,4 @@
-import { Component, Prop, h, Element, State } from '@stencil/core';
+import { Component, Prop, h, Element, State, Event, EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'edmbn-calendar',
@@ -31,10 +31,11 @@ export class Calendar {
    */
   @Element() element: HTMLElement;
 
-  monthHeader: string;
-
   @State() startDate: any;
   @State() endDate: any;
+  @Event() daysSelected: EventEmitter<any>;
+
+  monthHeader: string;
   monthObject: any[];
   monthNames = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'];
 
@@ -122,6 +123,7 @@ export class Calendar {
         this.startDate = this.startDate;
       } else {
         this.endDate = timestamp;
+        this.daysSelected.emit({ startDate: this.startDate, endDate: this.endDate });
       }
     }
   }
